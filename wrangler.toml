@@ -1,0 +1,9 @@
+# Cloudflare Pages configuration for waitlist
+
+name = "stockbrowse-landing"
+compatibility_date = "2024-01-01"
+
+# KV Namespace binding for waitlist emails
+[[kv_namespaces]]
+binding = "WAITLIST"
+id = "YOUR_KV_NAMESPACE_ID"  # Replace after creating KV namespace
