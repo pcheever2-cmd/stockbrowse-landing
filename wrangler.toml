@@ -3,6 +3,10 @@
 name = "stockbrowse-landing"
 compatibility_date = "2024-01-01"
 
+# Static assets directory
+[assets]
+directory = "./dist"
+
 # KV Namespace binding for waitlist emails
 [[kv_namespaces]]
 binding = "WAITLIST"
