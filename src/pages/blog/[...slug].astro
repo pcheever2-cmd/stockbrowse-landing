@@ -15,7 +15,7 @@ const { Content } = await post.render();
 ---
 
 <Layout title={`${post.data.title} | Stockbrowse`} description={post.data.description}>
-  <style>
+  <style is:global>
     .article-header {
       padding: 4rem 0 2rem;
       background: var(--bg-surface);
