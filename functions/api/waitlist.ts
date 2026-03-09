@@ -2,7 +2,7 @@
 // Emails are stored in KV with timestamp
 
 interface Env {
-  WAITLIST: KVNamespace;
+  KV_BINDING: KVNamespace;
 }
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
@@ -27,7 +27,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     }
 
     // Check if already signed up
-    const existing = await env.WAITLIST.get(email);
+    const existing = await env.KV_BINDING.get(email);
     if (existing) {
       return new Response(JSON.stringify({ message: 'Already on waitlist', alreadyExists: true }), {
         status: 200,
@@ -43,13 +43,13 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       userAgent: request.headers.get('User-Agent') || 'unknown',
     };
 
-    await env.WAITLIST.put(email, JSON.stringify(data));
+    await env.KV_BINDING.put(email, JSON.stringify(data));
 
     // Also maintain a list of all emails for easy export
-    const allEmails = await env.WAITLIST.get('__all_emails__');
+    const allEmails = await env.KV_BINDING.get('__all_emails__');
     const emailList = allEmails ? JSON.parse(allEmails) : [];
     emailList.push({ email, signedUpAt: data.signedUpAt });
-    await env.WAITLIST.put('__all_emails__', JSON.stringify(emailList));
+    await env.KV_BINDING.put('__all_emails__', JSON.stringify(emailList));
 
     return new Response(JSON.stringify({ message: 'Success', email }), {
       status: 200,

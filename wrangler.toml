@@ -9,5 +9,5 @@ directory = "./dist"
 
 # KV Namespace binding for waitlist emails
 [[kv_namespaces]]
-binding = "WAITLIST"
-id = "YOUR_KV_NAMESPACE_ID"  # Replace after creating KV namespace
+binding = "KV_BINDING"
+id = "a2812a6a378141699090db7c031cd49b"
