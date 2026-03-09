@@ -101,6 +101,30 @@ const description = "Browse stocks like products. Invest with clarity. Every sto
       color: var(--accent-cyan);
     }
 
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-cyan);
+    }
+
     /* Hero */
     .hero {
       padding: 6rem 0 4rem;
@@ -399,13 +423,16 @@ const description = "Browse stocks like products. Invest with clarity. Every sto
 <body>
   <!-- Header -->
   <header class="header">
-    <div class="container">
+    <div class="container header-inner">
       <div class="logo">
         <div class="logo-icon">S</div>
         <div class="logo-text">
           <span class="brand">Stock</span><span class="accent">browse</span>
         </div>
       </div>
+      <nav class="nav-links">
+        <a href="/blog">Learn</a>
+      </nav>
     </div>
   </header>
 

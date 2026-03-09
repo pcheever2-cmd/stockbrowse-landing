@@ -1,0 +1,127 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<Layout title="Learn to Invest | Stockbrowse">
+  <style>
+    .blog-hero {
+      padding: 4rem 0;
+      text-align: center;
+      background: var(--bg-surface);
+    }
+
+    .blog-hero h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    .blog-hero p {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .posts-section {
+      padding: 4rem 0;
+    }
+
+    .posts-list {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .post-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: block;
+    }
+
+    .post-card:hover {
+      border-color: var(--accent-cyan);
+      transform: translateY(-2px);
+    }
+
+    .post-date {
+      color: var(--accent-cyan);
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .post-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.75rem;
+      transition: color 0.2s;
+    }
+
+    .post-card:hover .post-title {
+      color: var(--accent-cyan);
+    }
+
+    .post-description {
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: var(--bg-surface);
+      border-radius: 1rem;
+      color: var(--text-secondary);
+    }
+
+    @media (max-width: 768px) {
+      .blog-hero h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+
+  <section class="blog-hero">
+    <div class="container">
+      <h1>Learn to Invest Smarter</h1>
+      <p>Practical guides and insights for building a quality stock portfolio.</p>
+    </div>
+  </section>
+
+  <section class="posts-section">
+    <div class="container">
+      {posts.length === 0 ? (
+        <div class="empty-state">
+          <p>Articles coming soon! Check back later.</p>
+        </div>
+      ) : (
+        <div class="posts-list">
+          {posts.map((post) => (
+            <a href={`/blog/${post.id}`} class="post-card">
+              <p class="post-date">
+                {post.data.pubDate.toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </p>
+              <h2 class="post-title">{post.data.title}</h2>
+              <p class="post-description">{post.data.description}</p>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+</Layout>

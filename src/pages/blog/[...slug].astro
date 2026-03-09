@@ -1,0 +1,179 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<Layout title={`${post.data.title} | Stockbrowse`} description={post.data.description}>
+  <style>
+    .article-header {
+      padding: 4rem 0 2rem;
+      background: var(--bg-surface);
+    }
+
+    .article-header .container {
+      max-width: 800px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      margin-bottom: 2rem;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover {
+      color: var(--accent-cyan);
+    }
+
+    .article-date {
+      color: var(--accent-cyan);
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .article-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .article-description {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .article-content {
+      padding: 3rem 0 4rem;
+    }
+
+    .article-content .container {
+      max-width: 800px;
+    }
+
+    .prose {
+      color: var(--text-secondary);
+      font-size: 1.125rem;
+      line-height: 1.8;
+    }
+
+    .prose h2 {
+      color: var(--text-primary);
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .prose h3 {
+      color: var(--text-primary);
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .prose p {
+      margin-bottom: 1.5rem;
+    }
+
+    .prose ul, .prose ol {
+      margin-bottom: 1.5rem;
+      padding-left: 1.5rem;
+    }
+
+    .prose li {
+      margin-bottom: 0.5rem;
+    }
+
+    .prose strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .prose a {
+      color: var(--accent-cyan);
+      text-decoration: none;
+    }
+
+    .prose a:hover {
+      text-decoration: underline;
+    }
+
+    .prose hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.5rem 0;
+    }
+
+    .prose em {
+      font-style: italic;
+    }
+
+    .prose blockquote {
+      border-left: 3px solid var(--accent-cyan);
+      padding-left: 1.5rem;
+      margin: 1.5rem 0;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 768px) {
+      .article-title {
+        font-size: 1.75rem;
+      }
+
+      .article-description {
+        font-size: 1.125rem;
+      }
+
+      .prose {
+        font-size: 1rem;
+      }
+    }
+  </style>
+
+  <header class="article-header">
+    <div class="container">
+      <a href="/blog" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Back to Learn
+      </a>
+      <p class="article-date">
+        {post.data.pubDate.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        })}
+      </p>
+      <h1 class="article-title">{post.data.title}</h1>
+      <p class="article-description">{post.data.description}</p>
+    </div>
+  </header>
+
+  <article class="article-content">
+    <div class="container">
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+  </article>
+</Layout>
