@@ -82,4 +82,8 @@ That's what Stockbrowse is built to give you.
 
 ---
 
+**Stockbrowse is launching soon.** Join the waitlist on our [homepage](/) to be the first to know when we go live.
+
+---
+
 *Disclaimer: The Compass Score is a quality assessment tool, not a buy or sell recommendation. Past performance of the scoring methodology does not guarantee future results. Always consider your personal financial situation before making investment decisions.*
