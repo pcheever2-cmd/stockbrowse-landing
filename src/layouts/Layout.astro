@@ -23,6 +23,15 @@ const { title, description = "Browse stocks like products. Invest with clarity. 
 
   <title>{title}</title>
 
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XB4GFRNE80"></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XB4GFRNE80');
+  </script>
+
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet" />
 
