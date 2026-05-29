@@ -5,6 +5,8 @@ interface Props {
 }
 
 const { title, description = "Browse stocks like products. Invest with clarity. Every stock rated 0-100." } = Astro.props;
+
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -15,11 +17,13 @@ const { title, description = "Browse stocks like products. Invest with clarity. 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <meta name="description" content={description} />
   <meta name="generator" content={Astro.generator} />
+  <link rel="canonical" href={canonical} />
 
   <!-- Open Graph -->
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonical} />
 
   <title>{title}</title>
 

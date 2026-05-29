@@ -6,7 +6,14 @@ const blog = defineCollection({
     title: z.string(),
     description: z.string(),
     pubDate: z.coerce.date(),
-    author: z.string().optional(),
+    author: z.string().default('Stockbrowse Team'),
+    category: z.enum([
+      'getting-started',
+      'your-money',
+      'investing-basics',
+      'stock-discovery',
+      'industry-guides',
+    ]).default('getting-started'),
   }),
 });
 

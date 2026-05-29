@@ -5,13 +5,20 @@ import { getCollection } from 'astro:content';
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts.map((post) => ({
-    params: { slug: post.id },
+    params: { slug: post.id.replace(/\.md$/, '') },
     props: { post },
   }));
 }
 
 const { post } = Astro.props;
 const { Content } = await post.render();
+
+// Related articles from the same category
+const allPosts = await getCollection('blog');
+const relatedPosts = allPosts
+  .filter((p) => p.data.category === post.data.category && p.id !== post.id)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
 ---
 
 <Layout title={`${post.data.title} | Stockbrowse`} description={post.data.description}>
@@ -161,6 +168,84 @@ const { Content } = await post.render();
         font-size: 1rem;
       }
     }
+
+    .blog-cta {
+      margin-top: 3.5rem;
+      background: var(--bg-surface);
+      border: 1px solid rgba(34, 211, 238, 0.2);
+      border-radius: 0.75rem;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .blog-cta-title {
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .blog-cta-sub {
+      color: var(--text-secondary);
+      margin-bottom: 1.25rem;
+    }
+
+    .blog-cta-btn {
+      display: inline-block;
+      background: var(--accent-cyan);
+      color: var(--bg-primary);
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .blog-cta-btn:hover {
+      background: var(--accent-cyan-dark);
+    }
+
+    .related {
+      margin-top: 3rem;
+    }
+
+    .related-title {
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .related-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .related-card {
+      display: block;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 1rem 1.25rem;
+      text-decoration: none;
+      transition: border-color 0.2s;
+    }
+
+    .related-card:hover {
+      border-color: rgba(34, 211, 238, 0.3);
+    }
+
+    .related-card-title {
+      color: var(--text-primary);
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .related-card-desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
   </style>
 
   <header class="article-header">
@@ -188,6 +273,26 @@ const { Content } = await post.render();
       <div class="prose">
         <Content />
       </div>
+
+      <div class="blog-cta">
+        <p class="blog-cta-title">Stockbrowse launches Spring 2026</p>
+        <p class="blog-cta-sub">Browse stocks by industry, filter by quality, and skip the ticker-symbol guessing game. Join the waitlist to get in first.</p>
+        <a href="/" class="blog-cta-btn">Join the waitlist →</a>
+      </div>
+
+      {relatedPosts.length > 0 && (
+        <div class="related">
+          <h3 class="related-title">Keep reading</h3>
+          <div class="related-list">
+            {relatedPosts.map((p) => (
+              <a href={`/blog/${p.id.replace(/\.md$/, '')}`} class="related-card">
+                <p class="related-card-title">{p.data.title}</p>
+                <p class="related-card-desc">{p.data.description}</p>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   </article>
 </Layout>

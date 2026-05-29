@@ -1,0 +1,3 @@
+# Preserve the one blog URL that was previously live with a .md suffix
+/blog/best-stocks-for-beginners.md     /blog/best-stocks-for-beginners/   301
+/blog/best-stocks-for-beginners.md/    /blog/best-stocks-for-beginners/   301
